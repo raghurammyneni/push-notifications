@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Subscribe to other server</title>
+    <style>
+    </style>
+  </head>
+  <body>
+  
+    <ul id="messages"></ul>
+      
+    <form>
+        <button type="button" onclick="createNotification()">Create Notification</button>
+        <button type="button" onclick="updateNotification()">Update Notification</button>
+    </form>
+    
+      
+    <script src="http://localhost:3010/socket.io/socket.io.js"></script>  
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>  
+    <script>
+        var socket; 
+        
+        $(function () {
+            connectToSocket();
+            socket.on('create notification', function(msg){
+                $('#messages').append($('<li>').text(msg));
+            });
+            
+            socket.on('update notification', function(msg){
+                $('#messages').append($('<li>').text(msg));
+            });
+        });
+        
+        function connectToSocket() {
+            socket = io.connect("http://localhost:3010");
+        }
+        
+        function createNotification() { 
+            socket.emit('create notification', 'Create Notification'); 
+            return false;
+        }
+            
+        function updateNotification() { 
+            socket.emit('update notification', 'Update Notification'); 
+            return false;
+        }
+         
+    </script>
+            
+  </body>
+</html>
